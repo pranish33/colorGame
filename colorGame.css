@@ -12,7 +12,8 @@ body{
 	padding-bottom: 30%;
 	float: left;
 	margin: 1.66%;
-	
+	border-radius: 30px;
+
 }
 
 #container{
@@ -24,4 +25,8 @@ body{
 h1{
 	color:  white;
 	text-align: center;
+}
+
+span{
+	color: white;
 }
