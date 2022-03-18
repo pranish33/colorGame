@@ -1,12 +1,83 @@
-var rgbColor = generateRandomColor(6);
-
+var numSquares = 6;
+var rgbColor = generateRandomColor(numSquares);
 var square = document.querySelectorAll('.squares');
 var displayMessage = document.getElementById('colorDisplay');
 var pickedColor = pickColor();
 var messageDisplay = document.getElementById('colorMessage');
 var h1 = document.querySelector('h1');
+var resetButton = document.getElementById("reset");
+var easyBtn = document.getElementById("easy-btn");
+var hardBtn = document.getElementById("hard-btn")
+
+
+// three squares color guessing 
+easyBtn.addEventListener("click", function(){
+	easyBtn.classList.add('selected');
+	hardBtn.classList.remove('selected');
+		//generate random colors
+	numSquares = 3;
+	rgbColor=generateRandomColor(numSquares);
+
+	//pick new color
+	pickedColor = pickColor();
+
+	//change color display to match color
+	displayMessage.textContent = pickedColor;
+
+	// change color of squares
+	for (var i = 0; i<square.length; i++ ){
+		if (rgbColor[i]){
+			square[i].style.background = rgbColor[i];
+		}
+		else{
+			square[i].style.background = "none";
+		}	
+}
+});
+
+
+// six squares color guessing 
+hardBtn.addEventListener("click", function(){
+
+	easyBtn.classList.remove('selected');
+	hardBtn.classList.add('selected');
+		//generate random colors
+		numSquares = 6;
+	rgbColor=generateRandomColor(numSquares);
+
+	//pick new color
+	pickedColor = pickColor();
+	//change color display to match color
+	displayMessage.textContent = pickedColor;
+
+	// change color of squares
+	for (var i = 0; i<square.length; i++ ){
+	square[i].style.background = rgbColor[i];
+	square[i].style.background = "block";
+}
+	h1.style.background="steelblue";
+
+});
+
 
 displayMessage.textContent = pickedColor;
+
+resetButton.addEventListener("click", function(){
+	//generate random colors
+	rgbColor=generateRandomColor(numSquares);
+
+	//pick new color
+	pickedColor = pickColor();
+
+	//change color display to match color
+	displayMessage.textContent = pickedColor;
+
+	// change color of squares
+	for (var i = 0; i<square.length; i++ ){
+	square[i].style.background = rgbColor[i];
+}
+	h1.style.background="steelblue";
+});
 
 
 for (var i = 0; i<square.length; i++ ){
@@ -19,6 +90,7 @@ for (var i = 0; i<square.length; i++ ){
 		// compare color to picked color 
 		if(clickedColor===pickedColor){
 			messageDisplay.textContent = "Correct";
+			resetButton.textContent = "Play Again?"
 			changeColors(clickedColor);
 			h1.style.background = clickedColor;
 
@@ -31,6 +103,7 @@ for (var i = 0; i<square.length; i++ ){
 
 	});
 }
+
 
 // function generating same color after guessing right color of square
 function changeColors(color){
