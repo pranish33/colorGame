@@ -1,21 +1,64 @@
 var numSquares = 6;
-var rgbColor = generateRandomColor(numSquares);
+var rgbColor = [];
+var pickedColor;
 var square = document.querySelectorAll('.squares');
 var displayMessage = document.getElementById('colorDisplay');
-var pickedColor = pickColor();
 var messageDisplay = document.getElementById('colorMessage');
 var h1 = document.querySelector('h1');
 var resetButton = document.getElementById("reset");
 var easyBtn = document.getElementById("easy-btn");
 var hardBtn = document.getElementById("hard-btn")
+var buttonMode = document.querySelectorAll('.mode');
 
 
-// three squares color guessing 
-easyBtn.addEventListener("click", function(){
-	easyBtn.classList.add('selected');
-	hardBtn.classList.remove('selected');
-		//generate random colors
-	numSquares = 3;
+init();
+
+function init(){
+
+	setUpModeButtons();
+	setUpSquares();
+	reset();
+}
+
+
+function setUpModeButtons(){
+	for (var i=0; i<buttonMode.length; i++){
+	buttonMode[i].addEventListener("click", function(){
+	buttonMode[0].classList.remove("selected");
+	buttonMode[1].classList.remove("selected");
+	this.classList.add("selected");
+	this.textContent==="Easy" ? numSquares = 3: numSquares = 6;
+	reset();
+	});
+}
+
+}
+
+
+function setUpSquares(){
+		for (var i = 0; i<square.length; i++ ){
+		// add initial colors to square 
+		square[i].style.background = rgbColor[i];
+		// add click listeners to squares
+		square[i].addEventListener("click", function(){
+		var clickedColor = this.style.background;
+		// compare color to picked color 
+		if(clickedColor===pickedColor){
+			messageDisplay.textContent = "YAI! YOU WON!!";
+			resetButton.textContent = "Play Again?"
+			changeColors(clickedColor);
+			h1.style.background = clickedColor;		 
+		}else{
+		// alert("Wrong!");
+			this.style.background = "#232323";
+			messageDisplay.textContent = "Try Again";
+	}
+});
+}
+}
+
+
+function reset(){
 	rgbColor=generateRandomColor(numSquares);
 
 	//pick new color
@@ -23,86 +66,28 @@ easyBtn.addEventListener("click", function(){
 
 	//change color display to match color
 	displayMessage.textContent = pickedColor;
-
+	resetButton.textContent = "New Colors";
+	messageDisplay.textContent = "";
 	// change color of squares
 	for (var i = 0; i<square.length; i++ ){
-		if (rgbColor[i]){
+		if(rgbColor[i]){
+			square[i].style.display = "block";
 			square[i].style.background = rgbColor[i];
 		}
 		else{
-			square[i].style.background = "none";
-		}	
-}
-});
-
-
-// six squares color guessing 
-hardBtn.addEventListener("click", function(){
-
-	easyBtn.classList.remove('selected');
-	hardBtn.classList.add('selected');
-		//generate random colors
-		numSquares = 6;
-	rgbColor=generateRandomColor(numSquares);
-
-	//pick new color
-	pickedColor = pickColor();
-	//change color display to match color
-	displayMessage.textContent = pickedColor;
-
-	// change color of squares
-	for (var i = 0; i<square.length; i++ ){
-	square[i].style.background = rgbColor[i];
-	square[i].style.background = "block";
+			square[i].style.display="none";
+		}
+	
 }
 	h1.style.background="steelblue";
-
-});
-
-
-displayMessage.textContent = pickedColor;
+}
 
 resetButton.addEventListener("click", function(){
-	//generate random colors
-	rgbColor=generateRandomColor(numSquares);
-
-	//pick new color
-	pickedColor = pickColor();
-
-	//change color display to match color
-	displayMessage.textContent = pickedColor;
-
-	// change color of squares
-	for (var i = 0; i<square.length; i++ ){
-	square[i].style.background = rgbColor[i];
-}
-	h1.style.background="steelblue";
+reset();
 });
 
 
-for (var i = 0; i<square.length; i++ ){
-	// add initial colors to square 
-	square[i].style.background = rgbColor[i];
-	// add click listeners to squares
-	square[i].addEventListener("click", function(){
-		var clickedColor = this.style.background;
-		console.log(clickedColor, pickedColor);
-		// compare color to picked color 
-		if(clickedColor===pickedColor){
-			messageDisplay.textContent = "Correct";
-			resetButton.textContent = "Play Again?"
-			changeColors(clickedColor);
-			h1.style.background = clickedColor;
 
-		 }
-		else{
-			// alert("Wrong!");
-			this.style.background = "#232323";
-			messageDisplay.textContent = "Try Again";
-		}
-
-	});
-}
 
 
 // function generating same color after guessing right color of square

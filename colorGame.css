@@ -70,6 +70,7 @@ color: steelblue;
 letter-spacing: 1%;
 font-size: inherit;
 transition: all 0.3s;
+outline: none;
 }
 
 #colorDisplay{
